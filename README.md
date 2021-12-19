@@ -38,14 +38,15 @@ The size of array is initialized after **user input**. The program shows`Input s
    | $10^4$ | 0.406499          | 0.059188                        | 0.001300   |
    | $10^5$ | 41.354350         | 6.392387                        | 0.010904   |
 
-   * The time complexity of **count sort** is $\Theta(n^2)$ , for the input size grows in decades the execution duration grows hundreds of time. As for **quick sort** of complexity $\Theta(nlog(n))$ the execution time do not dramatically grows like **count sort**.
+   * The time complexity of **count sort** is $\Theta(n^2)$ , for the **input size grows in decades** the execution duration grows **hundreds of time**.
+   *  As for **quick sort** of time complexity $\Theta(nlog(n))$, its execution time does not dramatically grows like **count sort**.
    * Parallel count sort does not 12 times faster then serial count sort due to the overhead.
 
 ## Producer-Consumer
 
 ### Descriptions
 
-#### Read File
+#### Guide
 
 1. Compile `h5_problem2.c`: `gcc -g -Wall -fopenmp -o p2 h5_problem2.c`
 2. Execute program(n is the number of thread): `./p2 n`
@@ -57,4 +58,6 @@ The size of array is initialized after **user input**. The program shows`Input s
 The keyword that `h5_problem2.c`specifies are `"China"`,`"man"` and `"virus"`.
 
 I use another `c` program, `gen.c` , to randomly generate `src.txt`, which produce words from the set of strings,  `{"China", "man", "virus", "covid", "mask", "WHO"}`. Each line in `src.txt` has 40 words, and the number of line is `argv[1]` of  `gen.c`.
+
+### Analysis
 
