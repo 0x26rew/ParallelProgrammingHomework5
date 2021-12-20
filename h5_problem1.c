@@ -35,13 +35,13 @@ int main(int argc, char *argv[]) {
     gettimeofday(&start, NULL);
 
     Count_sort(arr, len);
-    //printf("Result: ");
-    /*
+    printf("Result: ");
+    
     for (i = 0; i < len; i++) {
         printf("%d ", arr[i]);
     }
     puts("");
-    */
+    
     /* Caculate the total execution time */
     gettimeofday(&end, NULL);
     timersub(&end, &start, &diff);

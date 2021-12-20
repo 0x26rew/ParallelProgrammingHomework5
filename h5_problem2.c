@@ -57,11 +57,18 @@ int main(int argc, char *argv[]) {
     #pragma omp parallel num_threads(thread_count)
     {
         int my_rank = omp_get_thread_num();
+        /* Since  */
+        int *private_counts = calloc(num_of_keys, sizeof(int));
         /* Dispatch each thread to produce or consume */
         if  (my_rank < thread_count / 2) {
             Produce(src, my_rank);
         } else
-            Consume(my_rank, keywords, counts);
+            Consume(my_rank, keywords, private_counts);
+        int i;
+        #pragma omp critical(sum)
+        for (i = 0; i < num_of_keys; i++) {
+            counts[i] += private_counts[i];
+        }
     }
 
     /* Showing the result */
@@ -78,7 +85,7 @@ int main(int argc, char *argv[]) {
 
 /*****************************************************************************/
 
-static int CriticalRead(int *my_line, char *line, FILE *src) {
+int CriticalRead(int *my_line, char *line, FILE *src) {
     /* There is only one thread can read the input file at a time */
     int flag;
     #pragma omp critical(read)
@@ -116,7 +123,7 @@ void Produce(FILE *src, int rank) {
 }
 
 /*****************************************************************************/
-static int CriticalCheck(int *my_line, int rank) {
+int CriticalCheck(int *my_line, int rank) {
     int flag;
     #pragma omp critical(consume)
     {
@@ -141,7 +148,8 @@ void Consume(int rank, char **keys, int *counts) {
 
         /* Busy waiting until my_line is in text_queue
            or my_line is actually exceed the file */
-        while (insert_done[my_line]  == 0 && (end_line == 0 || end_line > my_line));
+        while (insert_done[my_line]  == 0 && 
+            (end_line == 0 || end_line > my_line));
 
         /* Do the following section if the file is still being read
            or some lines are not consumed */
@@ -163,7 +171,7 @@ void Consume(int rank, char **keys, int *counts) {
                         /* The new word has length (head - tail) */
                         if (head - tail == key_len) {
                             if (strncmp(keywords[i], &my_str[tail], head - tail) == 0) {
-                                #pragma omp critical(count)
+                                //#pragma omp critical(count)
                                 counts[i]++;
                             }
                         }
