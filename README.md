@@ -32,14 +32,14 @@ The size of array is initialized after **user input**. The program shows`Input s
 
    * The table below compares the execution times(**in second**) between the above three sorting method, the execution is on my laptop with a 6-core 12-thread CPU:
 
-   |        | Serial Count Sort | Parallel Count Sort(12 threads) | Quick Sort |
-   | ------ | ----------------- | ------------------------------- | ---------- |
-   | $10^3$ | 0.004730          | 0.001897                        | 0.000212   |
-   | $10^4$ | 0.406499          | 0.059188                        | 0.001300   |
-   | $10^5$ | 41.354350         | 6.392387                        | 0.010904   |
+     |        | Serial Count Sort | Parallel Count Sort(12 threads) | Quick Sort |
+     | ------ | ----------------- | ------------------------------- | ---------- |
+     | $10^3$ | 0.004730          | 0.001897                        | 0.000212   |
+     | $10^4$ | 0.406499          | 0.059188                        | 0.001300   |
+     | $10^5$ | 41.354350         | 6.392387                        | 0.010904   |
 
    * The time complexity of **count sort** is $\Theta(n^2)$ , for the **input size grows in decades** the execution duration grows **hundreds of time**.
-   *  As for **quick sort** of time complexity $\Theta(nlog(n))$, its execution time does not dramatically grows like **count sort**.
+   * As for **quick sort** of time complexity $\Theta(nlog(n))$, its execution time does not dramatically grows like **count sort**.
    * Parallel count sort does not 12 times faster then serial count sort due to the overhead.
 
 ## Producer-Consumer
