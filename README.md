@@ -53,14 +53,6 @@ The size of array is initialized after **user input**. The program shows`Input s
 
 The program **automatically read `n/2` source files** from  `home/E24076239/keys`  **without command line argument** or user input, and there will be `n/2` producers and `n-(n/2)` consumers.
 
-#### Keywords
-
-The keyword that `h5_problem2.c`specifies are `"China"`,`"man"` and `"virus"`.
-
-I use another `c` program, `gen.c` , to randomly generate `src.txt`, which produce words from the set of strings,  `{"China", "man", "virus", "covid", "mask", "WHO"}`. The number of line is `argv[1]` of  `gen.c` and each line has `argv[2]` words,
-
-### Concepts
-
 #### Organization
 
 ```html
@@ -84,7 +76,9 @@ I use another `c` program, `gen.c` , to randomly generate `src.txt`, which produ
 | `set.txt`      | The set of words for `gen.c` to randomly generate in source files, currently are `NTU`, `NCKU`, `NYCU` and `NCHU` |
 | `keywords.txt` | The keywords that consumers are going to find, currently contains `NTU` and `NCKU` |
 
-Data
+### Concepts
+
+#### Data
 
 | Variable              | Usage                                                        |
 | --------------------- | ------------------------------------------------------------ |
