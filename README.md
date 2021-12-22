@@ -49,9 +49,9 @@ The size of array is initialized after **user input**. The program shows`Input s
 #### Guide
 
 1. Compile `h5_problem2.c`: `gcc -g -Wall -fopenmp -o p2 h5_problem2.c`
-2. Execute program(n is the number of thread): `./p2 n`
+2. Execute program(`n` is the number of thread): `./p2 n`
 
-`h5_problem2.c` **automatically read the input file `src.txt` **without command line argument or user input.  The input file`src.txt` is under my home directory.
+The program **automatically read the source files** from  `home/E24076239/keys`  **without command line argument** or user input. 
 
 #### Keywords
 
@@ -60,6 +60,31 @@ The keyword that `h5_problem2.c`specifies are `"China"`,`"man"` and `"virus"`.
 I use another `c` program, `gen.c` , to randomly generate `src.txt`, which produce words from the set of strings,  `{"China", "man", "virus", "covid", "mask", "WHO"}`. The number of line is `argv[1]` of  `gen.c` and each line has `argv[2]` words,
 
 ### Concepts
+
+#### Organization
+
+```html
+├── home/E24076239
+│   ├── h5_problem2.c
+│   ├── gen.c
+│   ├── set.txt
+│   ├── keywords.txt
+│   ├── keys
+│         ├── 0.txt
+│         ├── 1.txt
+│         ├──  ...
+│         └── 11.txt
+```
+
+#### Generate Files
+
+| File           | Usage                                                        |
+| -------------- | ------------------------------------------------------------ |
+| `gen.c`        | Generate source files for `h5_problem2.c`, use the following command:  <br>`./[EXECUTABLE FILE NAME] [# OF OUTPUT FILES(12)] [# OF LINES IN A FILE(100)] [MAX # OF CHAR IN A LINE(100)]` |
+| `set.txt`      | The set of words for `gen.c` to randomly generate in source files, currently are `NTU`, `NCKU`, `NYCU` and `NCHU` |
+| `keywords.txt` | The keywords that consumers are going to find, currently contains `NTU` and `NCKU` |
+
+Data
 
 | Variable              | Usage                                                        |
 | --------------------- | ------------------------------------------------------------ |
@@ -71,47 +96,11 @@ I use another `c` program, `gen.c` , to randomly generate `src.txt`, which produ
 
 #### What Producers do
 
-A producer reads the `target` 'th from `src.txt` and then inserts it to `text_queue`, once the previous operations finish, the producer set `insert_done[target]` to `1`. A producer gets the value of its `target` from `q_front`.
+A producer of  reads text lines from its own source file and then inserts the read text to `text_queue`, once the previous operations finish, the producer set `insert_done[target]` to `1`. A producer gets the value of its `target` from `q_front`.
 
 #### What Consumers do
 
 If `insert_done[target]` is `1`, a consumer will search `keywords` from `text_queue[target]`. A consumer gets the value of its `target` from `q_rear`.
-
-### Analysis
-
-#### Number of Threads
-
-Using `gen.c` to generate an input file `src.txt` , which has `10000` lines of texts and each line has nearly `800` characters. Using different number of threads to run this program and compare the execution times. 
-
-| Number of Threads | Execution Time(secs.) |
-| ----------------- | --------------------- |
-| **2**             | 0.058014              |
-| **4**             | 0.029926              |
-| **6**             | 0.020982              |
-| **8**             | 0.017038              |
-| **10**            | 0.015740              |
-| **12**            | 0.012879              |
-
-The result shows the execution speed can be benefit from parallelization. 
-
-#### Number of Lines in Input File
-
-For this experiment, I changed the number of line in `src.txt` from `1000` to `10000` and using `12` threads to run `h2_problem2.c`, length of a single text line is still `800`. 
-
-| Number line | Execution Time(secs.) |
-| ----------- | --------------------- |
-| **1000**    | 0.002514              |
-| **2000**    | 0.005160              |
-| **3000**    | 0.005685              |
-| **4000**    | 0.006663              |
-| **5000**    | 0.007577              |
-| **6000**    | 0.008655              |
-| **7000**    | 0.009443              |
-| **8000**    | 0.010797              |
-| **9000**    | 0.011689              |
-| **10000**   | 0.012669              |
-
-Since `gen.c` randomly generates `src.txt` from its set consisted of `6` words, the number of appearances of keywords is not increase uniformly as the number of line growing, the execution times might not be strictly proportional to the number of lines.
 
 ## Difficulties
 
