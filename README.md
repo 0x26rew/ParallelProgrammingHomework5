@@ -51,7 +51,7 @@ The size of array is initialized after **user input**. The program shows`Input s
 1. Compile `h5_problem2.c`: `gcc -g -Wall -fopenmp -o p2 h5_problem2.c`
 2. Execute program(`n` is the number of thread): `./p2 n`
 
-The program **automatically read the source files** from  `home/E24076239/keys`  **without command line argument** or user input. 
+The program **automatically read `n/2` source files** from  `home/E24076239/keys`  **without command line argument** or user input, and there will be `n/2` producers and `n-(n/2)` consumers.
 
 #### Keywords
 
@@ -101,6 +101,20 @@ A producer of  reads text lines from its own source file and then inserts the re
 #### What Consumers do
 
 If `insert_done[target]` is `1`, a consumer will search `keywords` from `text_queue[target]`. A consumer gets the value of its `target` from `q_rear`.
+
+### Analysis
+
+| Number of Threads | Execution Time(secs.) |
+| ----------------- | --------------------- |
+| **2**             | 0.000455              |
+| **4**             | 0.000468              |
+| **6**             | 0.000846              |
+| **8**             | 0.001059              |
+| **10**            | 0.001542              |
+| **12**            | 0.001685              |
+
+Since there exist **critical sections** to guarantee that only one thread can accumulate the value of `q_front` or `q_rear`, the execution time increases when the number of threads increasing.
+
 
 ## Difficulties
 
